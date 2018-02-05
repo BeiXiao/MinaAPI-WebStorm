@@ -1,0 +1,436 @@
+<templateSet group="MinaAPI">
+  <template name="wx.request" value="wx.request({&#10;  url: '$URL$',&#10;  data: {},&#10;  header: {&#10;      'content-type': 'application/json' // 默认值&#10;  },&#10;  success: function(res) {&#10;    console.log(res.data)&#10;    $SUCCESS$&#10;  }&#10;})" description="发起网络请求" toReformat="false" toShortenFQNames="true">
+    <variable name="URL" expression="" defaultValue="" alwaysStopAt="true" />
+    <variable name="SUCCESS" expression="" defaultValue="" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_SCRIPT" value="true" />
+    </context>
+  </template>
+  <template name="wx.uploadFile" value="wx.uploadFile({&#10;  url: '$URL$', //仅为示例，非真实的接口地址&#10;  filePath: '$FILE_PATH$',&#10;  name: '$NAME$',&#10;  formData:{},&#10;  success: function(res){&#10;    var data = res.data&#10;    $SUCCESS$&#10;  }&#10;})" description="将本地资源上传到开发者服务器，客户端发起一个 HTTPS POST 请求，其中 content-type 为 multipart/form-data" toReformat="false" toShortenFQNames="true">
+    <variable name="URL" expression="" defaultValue="" alwaysStopAt="true" />
+    <variable name="FILE_PATH" expression="" defaultValue="" alwaysStopAt="true" />
+    <variable name="NAME" expression="" defaultValue="" alwaysStopAt="true" />
+    <variable name="SUCCESS" expression="" defaultValue="" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_SCRIPT" value="true" />
+    </context>
+  </template>
+  <template name="wx.downloadFile" value="wx.downloadFile({&#10;  url: '$URL$',&#10;  success: function(res) {&#10;    // 只要服务器有响应数据，就会把响应内容写入文件并进入 success 回调，业务需要自行判断是否下载到了想要的内容&#10;    if (res.statusCode === 200) {&#10;    }&#10;  }&#10;})" description="下载文件资源到本地，客户端直接发起一个 HTTP GET 请求，返回文件的本地临时路径" toReformat="false" toShortenFQNames="true">
+    <variable name="URL" expression="" defaultValue="" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_SCRIPT" value="true" />
+    </context>
+  </template>
+  <template name="wx.connectSocket" value="wx.connectSocket({&#10;  url: 'wss://$URL$',&#10;  data:{&#10;    x: '',&#10;    y: ''&#10;  },&#10;  header:{ &#10;    'content-type': 'application/json'&#10;  },&#10;  protocols: ['protocol1'],&#10;  method:&quot;GET&quot;&#10;})" description="创建一个 WebSocket 连接" toReformat="false" toShortenFQNames="true">
+    <variable name="URL" expression="" defaultValue="" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_SCRIPT" value="true" />
+    </context>
+  </template>
+  <template name="wx.onSocketOpen" value="wx.onSocketOpen(function(res) {&#10;  $SUCCESS$&#10;})" description="监听WebSocket连接打开事件" toReformat="false" toShortenFQNames="true">
+    <variable name="SUCCESS" expression="" defaultValue="" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_SCRIPT" value="true" />
+    </context>
+  </template>
+  <template name="wx.onSocketError" value="wx.onSocketError(function(res){&#10;  $ERROR$&#10;})" description="监听WebSocket错误" toReformat="false" toShortenFQNames="true">
+    <variable name="ERROR" expression="" defaultValue="" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_SCRIPT" value="true" />
+    </context>
+  </template>
+  <template name="wx.sendSocketMessage" value="wx.sendSocketMessage({&#10;  data:'$DATA$'&#10;})" description="通过 WebSocket 连接发送数据，需要先 wx.connectSocket，并在 wx.onSocketOpen 回调之后才能发送" toReformat="false" toShortenFQNames="true">
+    <variable name="DATA" expression="" defaultValue="" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_SCRIPT" value="true" />
+    </context>
+  </template>
+  <template name="wx.onSocketClose" value="wx.onSocketClose(function(res) {&#10;  $SUCCESS$&#10;})" description="监听WebSocket关闭" toReformat="false" toShortenFQNames="true">
+    <variable name="SUCCESS" expression="" defaultValue="" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_SCRIPT" value="true" />
+    </context>
+  </template>
+  <template name="SocketTask.send" value="SocketTask.send($OBJECT$)" description="[1.7.0+]通过 WebSocket 连接发送数据" toReformat="false" toShortenFQNames="true">
+    <variable name="OBJECT" expression="" defaultValue="" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_SCRIPT" value="true" />
+    </context>
+  </template>
+  <template name="SocketTask.close" value="SocketTask.close($OBJECT$)" description="[1.7.0+]关闭 WebSocket 连接" toReformat="false" toShortenFQNames="true">
+    <variable name="OBJECT" expression="" defaultValue="" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_SCRIPT" value="true" />
+    </context>
+  </template>
+  <template name="wx.chooseImage" value="wx.chooseImage({&#10;  count: 1, // 默认9&#10;  sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有&#10;  sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有&#10;  success: function (res) {&#10;    // 返回选定照片的本地文件路径列表，tempFilePath可以作为img标签的src属性显示图片&#10;    var tempFilePaths = res.tempFilePaths&#10;  }&#10;})" description="从本地相册选择图片或使用相机拍照" toReformat="false" toShortenFQNames="true">
+    <context>
+      <option name="JAVA_SCRIPT" value="true" />
+    </context>
+  </template>
+  <template name="wx.previewImage" value="wx.previewImage({&#10;  current: '$CURRENT_IMG_URL$', // 当前显示图片的http链接&#10;  urls: [] // 需要预览的图片http链接列表&#10;})" description="预览图片" toReformat="false" toShortenFQNames="true">
+    <variable name="CURRENT_IMG_URL" expression="" defaultValue="" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_SCRIPT" value="true" />
+    </context>
+  </template>
+  <template name="wx.getImageInfo" value="wx.getImageInfo({&#10;  src: '$IMG_URL$',&#10;  success: function (res) {&#10;    $SUCCESS$&#10;    console.log(res.width)&#10;    console.log(res.height)&#10;  }&#10;})" description="获取图片信息" toReformat="false" toShortenFQNames="true">
+    <variable name="IMG_URL" expression="" defaultValue="" alwaysStopAt="true" />
+    <variable name="SUCCESS" expression="" defaultValue="" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_SCRIPT" value="true" />
+    </context>
+  </template>
+  <template name="wx.saveImageToPhotosAlbum" value="wx.saveImageToPhotosAlbum({&#10;  success(res) {&#10;    $SUCCESS$&#10;  }&#10;})" description="[1.2.0+]保存图片到系统相册。需要用户授权 scope.writePhotosAlbum" toReformat="false" toShortenFQNames="true">
+    <variable name="SUCCESS" expression="" defaultValue="" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_SCRIPT" value="true" />
+    </context>
+  </template>
+  <template name="wx.startRecord" value="wx.startRecord({&#10;  success: function(res) {&#10;    var tempFilePath = res.tempFilePath&#10;    $SUCCESS$&#10;  },&#10;  fail: function(res) {&#10;    //录音失败&#10;    $FAIL$&#10;  }&#10;})" description="[1.6.0-不再维护]开始录音。当主动调用wx.stopRecord，或者录音超过1分钟时自动结束录音，返回录音文件的临时文件路径。当用户离开小程序时，此接口无法调用。需要用户授权 scope.record" toReformat="false" toShortenFQNames="true">
+    <variable name="SUCCESS" expression="" defaultValue="" alwaysStopAt="true" />
+    <variable name="FAIL" expression="" defaultValue="" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_SCRIPT" value="true" />
+    </context>
+  </template>
+  <template name="wx.stopRecord" value="wx.stopRecord()" description="主动调用停止录音" toReformat="false" toShortenFQNames="true">
+    <context>
+      <option name="JAVA_SCRIPT" value="true" />
+    </context>
+  </template>
+  <template name="wx.getRecorderManager" value="const recorderManager = wx.getRecorderManager()&#10;&#10;recorderManager.onStart(() =&gt; {&#10;  console.log('recorder start')&#10;})&#10;recorderManager.onResume(() =&gt; {&#10;  console.log('recorder resume')&#10;})&#10;recorderManager.onPause(() =&gt; {&#10;  console.log('recorder pause')&#10;})&#10;recorderManager.onStop((res) =&gt; {&#10;  console.log('recorder stop', res)&#10;  const { tempFilePath } = res&#10;})&#10;recorderManager.onFrameRecorded((res) =&gt; {&#10;  const { frameBuffer } = res&#10;  console.log('frameBuffer.byteLength', frameBuffer.byteLength)&#10;})&#10;&#10;const options = {&#10;  duration: 10000,&#10;  sampleRate: 44100,&#10;  numberOfChannels: 1,&#10;  encodeBitRate: 192000,&#10;  format: 'aac',&#10;  frameSize: 50&#10;}&#10;&#10;recorderManager.start(options)" description="[1.6.0+]获取全局唯一的录音管理器 recorderManager" toReformat="false" toShortenFQNames="true">
+    <context>
+      <option name="JAVA_SCRIPT" value="true" />
+    </context>
+  </template>
+  <template name="wx.playVoice" value="wx.playVoice({&#10;  filePath: $FILE_PATH$,&#10;  complete: function(){&#10;    $COMPLETE$&#10;  }&#10;})" description="[1.6.0-不再维护]开始播放语音，同时只允许一个语音文件正在播放，如果前一个语音文件还没播放完，将中断前一个语音播放" toReformat="false" toShortenFQNames="true">
+    <variable name="FILE_PATH" expression="" defaultValue="" alwaysStopAt="true" />
+    <variable name="COMPLETE" expression="" defaultValue="" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_SCRIPT" value="true" />
+    </context>
+  </template>
+  <template name="wx.pauseVoice" value="wx.pauseVoice()" description="暂停正在播放的语音。再次调用wx.playVoice播放同一个文件时，会从暂停处开始播放。如果想从头开始播放，需要先调用 wx.stopVoice" toReformat="false" toShortenFQNames="true">
+    <context>
+      <option name="JAVA_SCRIPT" value="true" />
+    </context>
+  </template>
+  <template name="wx.stopVoice" value="wx.stopVoice()" description="结束播放语音" toReformat="false" toShortenFQNames="true">
+    <context>
+      <option name="JAVA_SCRIPT" value="true" />
+    </context>
+  </template>
+  <template name="wx.getBackgroundAudioPlayerState" value="wx.getBackgroundAudioPlayerState({&#10;    success: function(res) {&#10;        var status = res.status&#10;        var dataUrl = res.dataUrl&#10;        var currentPosition = res.currentPosition&#10;        var duration = res.duration&#10;        var downloadPercent = res.downloadPercent&#10;    }&#10;})" description="[1.2.0-不再维护]获取后台音乐播放状态" toReformat="false" toShortenFQNames="true">
+    <context>
+      <option name="JAVA_SCRIPT" value="true" />
+    </context>
+  </template>
+  <template name="wx.playBackgroundAudio" value="wx.playBackgroundAudio({&#10;    dataUrl: '$DATA_URL$',&#10;    title: '$TITLE$',&#10;    coverImgUrl: '$COVER_IMG_URL$'&#10;})" description="使用后台播放器播放音乐，对于微信客户端来说，只能同时有一个后台音乐在播放。当用户离开小程序后，音乐将暂停播放；当用户点击“显示在聊天顶部”时，音乐不会暂停播放；当用户在其他小程序占用了音乐播放器，原有小程序内的音乐将停止播放" toReformat="false" toShortenFQNames="true">
+    <variable name="DATA_URL" expression="" defaultValue="" alwaysStopAt="true" />
+    <variable name="TITLE" expression="" defaultValue="" alwaysStopAt="true" />
+    <variable name="COVER_IMG_URL" expression="" defaultValue="" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_SCRIPT" value="true" />
+    </context>
+  </template>
+  <template name="wx.pauseBackgroundAudio" value="wx.pauseBackgroundAudio()" description="暂停播放音乐" toReformat="false" toShortenFQNames="true">
+    <context>
+      <option name="JAVA_SCRIPT" value="true" />
+    </context>
+  </template>
+  <template name="wx.seekBackgroundAudio" value="wx.seekBackgroundAudio({&#10;    position: $POSITION$ //音乐位置，单位：秒&#10;})" description="控制音乐播放进度" toReformat="false" toShortenFQNames="true">
+    <variable name="POSITION" expression="" defaultValue="" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_SCRIPT" value="true" />
+    </context>
+  </template>
+  <template name="wx.stopBackgroundAudio" value="wx.stopBackgroundAudio()" description="停止播放音乐" toReformat="false" toShortenFQNames="true">
+    <context>
+      <option name="JAVA_SCRIPT" value="true" />
+    </context>
+  </template>
+  <template name="wx.onBackgroundAudioPlay" value="wx.onBackgroundAudioPlay($CALLBACK$)" description="监听音乐播放" toReformat="false" toShortenFQNames="true">
+    <variable name="CALLBACK" expression="" defaultValue="" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_SCRIPT" value="true" />
+    </context>
+  </template>
+  <template name="wx.onBackgroundAudioPause" value="wx.onBackgroundAudioPause($CALLBACK$)" description="监听音乐暂停" toReformat="false" toShortenFQNames="true">
+    <variable name="CALLBACK" expression="" defaultValue="" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_SCRIPT" value="true" />
+    </context>
+  </template>
+  <template name="wx.onBackgroundAudioStop" value="wx.onBackgroundAudioStop($CALLBACK$)" description="监听音乐停止" toReformat="false" toShortenFQNames="true">
+    <variable name="CALLBACK" expression="" defaultValue="" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_SCRIPT" value="true" />
+    </context>
+  </template>
+  <template name="wx.getBackgroundAudioManager" value="const backgroundAudioManager = wx.getBackgroundAudioManager()&#10;backgroundAudioManager.title = '$TITLE$'&#10;backgroundAudioManager.epname = '$EPNAME$'&#10;backgroundAudioManager.singer = '$SINGER$'&#10;backgroundAudioManager.coverImgUrl = '$AUDIO_IMG_URL$'&#10;backgroundAudioManager.src = '$AUDIO_SRC$'" description="[1.2.0+]获取全局唯一的背景音频管理器 backgroundAudioManager" toReformat="false" toShortenFQNames="true">
+    <variable name="TITLE" expression="" defaultValue="" alwaysStopAt="true" />
+    <variable name="EPNAME" expression="" defaultValue="" alwaysStopAt="true" />
+    <variable name="SINGER" expression="" defaultValue="" alwaysStopAt="true" />
+    <variable name="AUDIO_IMG_URL" expression="" defaultValue="" alwaysStopAt="true" />
+    <variable name="AUDIO_SRC" expression="" defaultValue="" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_SCRIPT" value="true" />
+    </context>
+  </template>
+  <template name="wx.createAudioContext" value="wx.createAudioContext('$DOM_ID$')" description="[1.6.0-不再维护]创建并返回 audio 上下文 audioContext 对象。在自定义组件下，第二个参数传入组件实例this，以操作组件内 audio 组件" toReformat="false" toShortenFQNames="true">
+    <variable name="DOM_ID" expression="" defaultValue="" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_SCRIPT" value="true" />
+    </context>
+  </template>
+  <template name="wx.createInnerAudioContext" value="const innerAudioContext = wx.createInnerAudioContext()&#10;innerAudioContext.autoplay = true&#10;innerAudioContext.src = '$AUDIO_SRC$'&#10;innerAudioContext.onPlay(() =&gt; {&#10;    console.log('开始播放')&#10;})&#10;innerAudioContext.onError((res) =&gt; {&#10;    console.log(res.errMsg)&#10;    console.log(res.errCode)&#10;})" description="[1.6.0+]创建并返回内部 audio 上下文 innerAudioContext 对象。本接口是 wx.createAudioContext 升级版" toReformat="false" toShortenFQNames="true">
+    <variable name="AUDIO_SRC" expression="" defaultValue="" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_SCRIPT" value="true" />
+    </context>
+  </template>
+  <template name="wx.chooseVideo" value="wx.chooseVideo({&#10;  sourceType: ['album','camera'],&#10;  maxDuration: 60,&#10;  success: function(res) {&#10;    var src = res.tempFilePath&#10;    $SUCCESS$&#10;  }&#10;})" description="拍摄视频或从手机相册中选视频，返回视频的临时文件路径" toReformat="false" toShortenFQNames="true">
+    <variable name="SUCCESS" expression="" defaultValue="" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_SCRIPT" value="true" />
+    </context>
+  </template>
+  <template name="wx.saveVideoToPhotosAlbum" value="wx.saveVideoToPhotosAlbum({&#10;  success(res) {&#10;    $SUCCESS$&#10;  }&#10;})" description="[1.2.0+]保存视频到系统相册。需要用户授权 scope.writePhotosAlbum" toReformat="false" toShortenFQNames="true">
+    <variable name="SUCCESS" expression="" defaultValue="" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_SCRIPT" value="true" />
+    </context>
+  </template>
+  <template name="wx.createVideoContext" value="wx.createVideoContext('$DOM_ID$')" description="创建并返回 video 上下文 videoContext 对象。在自定义组件下，第二个参数传入组件实例this，以操作组件内 video 组件" toReformat="false" toShortenFQNames="true">
+    <variable name="DOM_ID" expression="" defaultValue="" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_SCRIPT" value="true" />
+    </context>
+  </template>
+  <template name="wx.createCameraContext" value="wx.createCameraContext(this)" description="[1.6.0+]创建并返回 camera 上下文 cameraContext 对象，cameraContext 与页面的 camera 组件绑定，一个页面只能有一个camera，通过它可以操作对应的 camera 组件。 在自定义组件下，第一个参数传入组件实例this，以操作组件内 camera 组件" toReformat="false" toShortenFQNames="true">
+    <context>
+      <option name="JAVA_SCRIPT" value="true" />
+    </context>
+  </template>
+  <template name="wx.createLivePlayerContext" value="wx.createLivePlayerContext($DOM_ID$, this)" description="[1.7.0+]操作对应的 live-player 组件。 创建并返回 live-player 上下文 LivePlayerContext 对象。在自定义组件下，第二个参数传入组件实例this，以操作组件内 live-player 组件" toReformat="false" toShortenFQNames="true">
+    <variable name="DOM_ID" expression="" defaultValue="" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_SCRIPT" value="true" />
+    </context>
+  </template>
+  <template name="wx.createLivePusherContext" value="wx.createLivePusherContext()" description="[1.7.0+]创建并返回 live-pusher 上下文 LivePusherContext 对象，LivePusherContext 与页面的 live-pusher 组件绑定，一个页面只能有一个 live-pusher，通过它可以操作对应的 live-pusher 组件。 在自定义组件下，第一个参数传入组件实例this，以操作组件内 live-pusher 组件" toReformat="false" toShortenFQNames="true">
+    <context>
+      <option name="JAVA_SCRIPT" value="true" />
+    </context>
+  </template>
+  <template name="wx.saveFile" value="wx.saveFile({&#10;  tempFilePath: '$FILE_PATH$',&#10;  success: function(res) {&#10;    var savedFilePath = res.savedFilePath&#10;    $SUCCESS$&#10;  }&#10;})" description="[1.7.0+]保存文件到本地。注意：saveFile 会把临时文件移动，因此调用成功后传入的 tempFilePath 将不可用" toReformat="false" toShortenFQNames="true">
+    <variable name="FILE_PATH" expression="" defaultValue="" alwaysStopAt="true" />
+    <variable name="SUCCESS" expression="" defaultValue="" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_SCRIPT" value="true" />
+    </context>
+  </template>
+  <template name="wx.getFileInfo" value="wx.getFileInfo({&#10;  success(res) {&#10;    $SUCCESS$&#10;    console.log(res.size)&#10;    console.log(res.digest)&#10;  }&#10;})" description="[1.4.0+]获取文件信息" toReformat="false" toShortenFQNames="true">
+    <variable name="SUCCESS" expression="" defaultValue="" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_SCRIPT" value="true" />
+    </context>
+  </template>
+  <template name="wx.getSavedFileList" value="wx.getSavedFileList({&#10;  success: function(res) {&#10;    console.log(res.fileList)&#10;    $SUCCESS$&#10;  }&#10;})" description="获取本地已保存的文件列表" toReformat="false" toShortenFQNames="true">
+    <variable name="SUCCESS" expression="" defaultValue="" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_SCRIPT" value="true" />
+    </context>
+  </template>
+  <template name="wx.getSavedFileInfo" value="wx.getSavedFileInfo({&#10;  filePath: 'wxfile://$FILE_PATH$', //仅做示例用，非真正的文件路径&#10;  success: function(res) {&#10;    console.log(res.size)&#10;    console.log(res.createTime)&#10;    $SUCCESS$&#10;  }&#10;})" description="获取本地文件的文件信息。此接口只能用于获取已保存到本地的文件，若需要获取临时文件信息，请使用 wx.getFileInfo 接口" toReformat="false" toShortenFQNames="true">
+    <variable name="FILE_PATH" expression="" defaultValue="" alwaysStopAt="true" />
+    <variable name="SUCCESS" expression="" defaultValue="" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_SCRIPT" value="true" />
+    </context>
+  </template>
+  <template name="wx.removeSavedFile" value="wx.removeSavedFile({&#10;  filePath: res.fileList[0].filePath,&#10;  complete: function(res) {&#10;    console.log(res)&#10;    $COMPLETE$&#10;  }&#10;})" description="删除本地存储的文件" toReformat="false" toShortenFQNames="true">
+    <variable name="COMPLETE" expression="" defaultValue="" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_SCRIPT" value="true" />
+    </context>
+  </template>
+  <template name="wx.openDocument" value="wx.openDocument({&#10;  filePath: $FILE_PATH$,&#10;  success: function (res) {&#10;    console.log('打开文档成功')&#10;    $SUCCESS$&#10;  }&#10;})" description="新开页面打开文档，支持格式：doc, xls, ppt, pdf, docx, xlsx, pptx" toReformat="false" toShortenFQNames="true">
+    <variable name="FILE_PATH" expression="" defaultValue="" alwaysStopAt="true" />
+    <variable name="SUCCESS" expression="" defaultValue="" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_SCRIPT" value="true" />
+    </context>
+  </template>
+  <template name="wx.setStorage" value="wx.setStorage({&#10;  key:'$KEY$',&#10;  data: $VALUE$&#10;})" description="[异步]将数据存储在本地缓存中指定的 key 中，会覆盖掉原来该 key 对应的内容" toReformat="false" toShortenFQNames="true">
+    <variable name="KEY" expression="" defaultValue="" alwaysStopAt="true" />
+    <variable name="VALUE" expression="" defaultValue="" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_SCRIPT" value="true" />
+    </context>
+  </template>
+  <template name="wx.setStorageSync" value="try {&#10;    wx.setStorageSync('$KEY$', $VALUE$)&#10;} catch (e) {    &#10;}" description="[同步]将 data 存储在本地缓存中指定的 key 中，会覆盖掉原来该 key 对应的内容" toReformat="false" toShortenFQNames="true">
+    <variable name="KEY" expression="" defaultValue="" alwaysStopAt="true" />
+    <variable name="VALUE" expression="" defaultValue="" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_SCRIPT" value="true" />
+    </context>
+  </template>
+  <template name="wx.getStorage" value="wx.getStorage({&#10;  key: '$KEY$',&#10;  success: function(res) {&#10;    console.log(res.data)&#10;    $SUCCESS$&#10;  } &#10;})" description="[异步]从本地缓存中异步获取指定 key 对应的内容" toReformat="false" toShortenFQNames="true">
+    <variable name="KEY" expression="" defaultValue="" alwaysStopAt="true" />
+    <variable name="SUCCESS" expression="" defaultValue="" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_SCRIPT" value="true" />
+    </context>
+  </template>
+  <template name="wx.getStorageSync" value="try {&#10;  var value = wx.getStorageSync('$KEY$')&#10;  if (value) {&#10;      // Do something with return value&#10;  }&#10;} catch (e) {&#10;  // Do something when catch error&#10;}" description="[同步]从本地缓存中同步获取指定 key 对应的内容" toReformat="false" toShortenFQNames="true">
+    <variable name="KEY" expression="" defaultValue="" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_SCRIPT" value="true" />
+    </context>
+  </template>
+  <template name="wx.getStorageInfo" value="wx.getStorageInfo({&#10;  success: function(res) {&#10;    console.log(res.keys)&#10;    console.log(res.currentSize)&#10;    console.log(res.limitSize)&#10;    $SUCCESS$&#10;  }&#10;})" description="[异步]获取当前storage的相关信息" toReformat="false" toShortenFQNames="true">
+    <variable name="SUCCESS" expression="" defaultValue="" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_SCRIPT" value="true" />
+    </context>
+  </template>
+  <template name="wx.getStorageInfoSync" value="try {&#10;  var res = wx.getStorageInfoSync()&#10;  console.log(res.keys)&#10;  console.log(res.currentSize)&#10;  console.log(res.limitSize)&#10;} catch (e) {&#10;  // Do something when catch error&#10;}" description="[同步]获取当前storage的相关信息" toReformat="false" toShortenFQNames="true">
+    <context>
+      <option name="JAVA_SCRIPT" value="true" />
+    </context>
+  </template>
+  <template name="wx.removeStorage" value="wx.removeStorage({&#10;  key: '$KEY$',&#10;  success: function(res) {&#10;    console.log(res.data)&#10;    $SUCCESS$&#10;  } &#10;})" description="[异步]从本地缓存中异步移除指定 key" toReformat="false" toShortenFQNames="true">
+    <variable name="KEY" expression="" defaultValue="" alwaysStopAt="true" />
+    <variable name="SUCCESS" expression="" defaultValue="" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_SCRIPT" value="true" />
+    </context>
+  </template>
+  <template name="wx.removeStorageSync" value="try {&#10;  wx.removeStorageSync('$KEY$')&#10;} catch (e) {&#10;  // Do something when catch error&#10;}" description="[同步]从本地缓存中同步移除指定 key" toReformat="false" toShortenFQNames="true">
+    <variable name="KEY" expression="" defaultValue="" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_SCRIPT" value="true" />
+    </context>
+  </template>
+  <template name="wx.clearStorage" value="wx.clearStorage()" description="[异步]清理本地数据缓存" toReformat="false" toShortenFQNames="true">
+    <context>
+      <option name="JAVA_SCRIPT" value="true" />
+    </context>
+  </template>
+  <template name="wx.clearStorageSync" value="wx.clearStorageSync()" description="[同步]清理本地数据缓存" toReformat="false" toShortenFQNames="true">
+    <context>
+      <option name="JAVA_SCRIPT" value="true" />
+    </context>
+  </template>
+  <template name="wx.getLocation" value="wx.getLocation({&#10;  type: 'wgs84',&#10;  success: function(res) {&#10;    var latitude = res.latitude&#10;    var longitude = res.longitude&#10;    var speed = res.speed&#10;    var accuracy = res.accuracy&#10;    $SUCCESS$&#10;  }&#10;})" description="获取当前的地理位置、速度。当用户离开小程序后，此接口无法调用；当用户点击“显示在聊天顶部”时，此接口可继续调用" toReformat="false" toShortenFQNames="true">
+    <variable name="SUCCESS" expression="" defaultValue="" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_SCRIPT" value="true" />
+    </context>
+  </template>
+  <template name="wx.chooseLocation" value="wx.getLocation({&#10;  success: function(res) {&#10;    var latitude = res.latitude //纬度&#10;    var longitude = res.longitude //经度&#10;    var name = res.name //位置名称&#10;    var address = res.address //详细地址&#10;    $SUCCESS$&#10;  }&#10;})" description="打开地图选择位置。需要用户授权 scope.userLocation" toReformat="false" toShortenFQNames="true">
+    <variable name="SUCCESS" expression="" defaultValue="" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_SCRIPT" value="true" />
+    </context>
+  </template>
+  <template name="wx.openLocation" value="wx.openLocation({&#10;  latitude: latitude, //纬度&#10;  longitude: longitude, //经度&#10;  scale: 18  //缩放比例 5~18&#10;})" description="使用微信内置地图查看位置。 需要用户授权 scope.userLocation" toReformat="false" toShortenFQNames="true">
+    <context>
+      <option name="JAVA_SCRIPT" value="true" />
+    </context>
+  </template>
+  <template name="wx.createMapContext" value="wx.createMapContext('$DOM_ID$')" description="创建并返回 map 上下文 mapContext 对象。在自定义组件下，第二个参数传入组件实例this，以操作组件内 map 组件" toReformat="false" toShortenFQNames="true">
+    <variable name="DOM_ID" expression="" defaultValue="" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_SCRIPT" value="true" />
+    </context>
+  </template>
+  <template name="wx.getSystemInfo" value="wx.getSystemInfo({&#10;  success: function(res) {&#10;    console.log(res.model)&#10;    console.log(res.pixelRatio)&#10;    console.log(res.windowWidth)&#10;    console.log(res.windowHeight)&#10;    console.log(res.language)&#10;    console.log(res.version)&#10;    console.log(res.platform)&#10;    $SUCCESS$&#10;  }&#10;})" description="[异步]获取系统信息" toReformat="false" toShortenFQNames="true">
+    <variable name="SUCCESS" expression="" defaultValue="" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_SCRIPT" value="true" />
+    </context>
+  </template>
+  <template name="wx.getSystemInfoSync" value="try {&#10;  var res = wx.getSystemInfoSync()&#10;  console.log(res.model)&#10;  console.log(res.pixelRatio)&#10;  console.log(res.windowWidth)&#10;  console.log(res.windowHeight)&#10;  console.log(res.language)&#10;  console.log(res.version)&#10;  console.log(res.platform)&#10;} catch (e) {&#10;  // Do something when catch error&#10;}" description="[同步]获取系统信息同步接口" toReformat="false" toShortenFQNames="true">
+    <context>
+      <option name="JAVA_SCRIPT" value="true" />
+    </context>
+  </template>
+  <template name="wx.canIUse" value="wx.canIUse($String$)" description="判断小程序的API，回调，参数，组件等是否在当前版本可用" toReformat="false" toShortenFQNames="true">
+    <variable name="String" expression="" defaultValue="" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_SCRIPT" value="true" />
+    </context>
+  </template>
+  <template name="wx.getNetworkType" value="wx.getNetworkType({&#10;  success: function(res) {&#10;    // 返回网络类型, 有效值：&#10;    // wifi/2g/3g/4g/unknown(Android下不常见的网络类型)/none(无网络)&#10;    var networkType = res.networkType&#10;    $SUCCESS$&#10;  }&#10;})" description="获取网络类型" toReformat="false" toShortenFQNames="true">
+    <variable name="SUCCESS" expression="" defaultValue="" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_SCRIPT" value="true" />
+    </context>
+  </template>
+  <template name="wx.onNetworkStatusChange" value="wx.onNetworkStatusChange(function(res) {&#10;  console.log(res.isConnected)&#10;  console.log(res.networkType)&#10;  $SUCCESS$&#10;})" description="[1.1.0+]监听网络状态变化" toReformat="false" toShortenFQNames="true">
+    <variable name="SUCCESS" expression="" defaultValue="" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_SCRIPT" value="true" />
+    </context>
+  </template>
+  <template name="wx.onAccelerometerChange" value="wx.onAccelerometerChange(function(res) {&#10;  console.log(res.x)&#10;  console.log(res.y)&#10;  console.log(res.z)&#10;  $SUCCESS$&#10;})" description="监听加速度数据，频率：5次/秒，接口调用后会自动开始监听，可使用 wx.stopAccelerometer 停止监听" toReformat="false" toShortenFQNames="true">
+    <variable name="SUCCESS" expression="" defaultValue="" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_SCRIPT" value="true" />
+    </context>
+  </template>
+  <template name="wx.startAccelerometer" value="wx.startAccelerometer()" description="[1.1.0+]开始监听加速度数据" toReformat="false" toShortenFQNames="true">
+    <context>
+      <option name="JAVA_SCRIPT" value="true" />
+    </context>
+  </template>
+  <template name="wx.stopAccelerometer" value="wx.stopAccelerometer()" description="[1.1.0+]停止监听加速度数据" toReformat="false" toShortenFQNames="true">
+    <context>
+      <option name="JAVA_SCRIPT" value="true" />
+    </context>
+  </template>
+  <template name="wx.onCompassChange" value="wx.onCompassChange(function (res) {&#10;  console.log(res.direction)&#10;  $SUCCESS$&#10;})" description="监听罗盘数据，频率：5次/秒，接口调用后会自动开始监听，可使用wx.stopCompass停止监听" toReformat="false" toShortenFQNames="true">
+    <variable name="SUCCESS" expression="" defaultValue="" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_SCRIPT" value="true" />
+    </context>
+  </template>
+  <template name="wx.startCompass" value="wx.startCompass()" description="[1.1.0]开始监听罗盘数据" toReformat="false" toShortenFQNames="true">
+    <context>
+      <option name="JAVA_SCRIPT" value="true" />
+    </context>
+  </template>
+  <template name="wx.stopCompass" value="wx.stopCompass()" description="[1.1.0]停止监听罗盘数据" toReformat="false" toShortenFQNames="true">
+    <context>
+      <option name="JAVA_SCRIPT" value="true" />
+    </context>
+  </template>
+  <template name="wx.makePhoneCall" value="wx.makePhoneCall({&#10;  phoneNumber: '$PHONE_NUMBER$'&#10;})" description="拨打电话" toReformat="false" toShortenFQNames="true">
+    <variable name="PHONE_NUMBER" expression="" defaultValue="" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_SCRIPT" value="true" />
+    </context>
+  </template>
+  <template name="wx.scanCode" value="wx.scanCode({&#10;  onlyFromCamera: false, // 只允许从相机扫码&#10;  success: (res) =&gt; {&#10;    console.log(res)&#10;    $SUCCESS$&#10;  }&#10;})" description="调起客户端扫码界面，扫码成功后返回对应的结果" toReformat="false" toShortenFQNames="true">
+    <variable name="SUCCESS" expression="" defaultValue="" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_SCRIPT" value="true" />
+    </context>
+  </template>
+  <template name="wx.setClipboardData" value="wx.setClipboardData({&#10;  data: '$DATA$',&#10;  success: function(res) {&#10;    $SUCCESS$&#10;  }&#10;})" description="[1.1.0]设置系统剪贴板的内容" toReformat="false" toShortenFQNames="true">
+    <variable name="DATA" expression="" defaultValue="" alwaysStopAt="true" />
+    <variable name="SUCCESS" expression="" defaultValue="" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_SCRIPT" value="true" />
+    </context>
+  </template>
+  <template name="wx.getClipboardData" value="wx.getClipboardData({&#10;  success: function(res){&#10;    $SUCCESS$&#10;    console.log(res.data)&#10;  }&#10;})" description="[1.1.0]获取系统剪贴板的内容" toReformat="false" toShortenFQNames="true">
+    <variable name="SUCCESS" expression="" defaultValue="" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_SCRIPT" value="true" />
+    </context>
+  </template>
+</templateSet>
